@@ -1,0 +1,38 @@
+#include "example_addition.h"
+
+
+/*
+  how to make return listable (eg enabling to use lists ie return more than one value)
+*/
+CU(example_addition_infix)
+{
+  static Stoken RETU;
+  TT(&RETU).NUMBER = ttnSnumber | ttnSproperty_type;
+  TT(&RETU).number.n = TTcuono(syono(ttcv(0))).number.n
+    + TTcuono(syono(ttcv(1))).number.n;
+  return &RETU;
+}
+CU(example_addition_prefix)
+{
+  static Stoken RETU;
+  TT(&RETU).NUMBER = ttnSnumber | ttnSproperty_type;
+  TT(&RETU).number.n = TTcuono(syono(ttcv(0))).number.n;
+  return &RETU;
+}
+RE(example_addition)
+{
+  reicanp(ttnSnumber|ttnSsymbol);
+  reaffix2callable;
+  //if argc != 1 make infix otherwise make prefix
+  if(ttc.argc == 2){
+    recallable(ttnSsymbol|ttnSnumber|ttnSproperty_type,CUexample_addition_infix);
+  }
+  else{
+    recallable(ttnSsymbol|ttnSnumber|ttnSproperty_type,CUexample_addition_prefix);
+  }
+}
+TO(example_addition)
+{
+  totoken(ttnSaffix);
+  toaffix(INFIX,1,1,REaddition);
+}

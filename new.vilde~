@@ -1,0 +1,14 @@
+
+k = kick01.wav
+s = snare01.wav
+h = hihat01.wav
+
+----------------
+k k k k k k k k
+ s s s s s s s s
+hhhhhhhhhhhhhhhh
+_BEAT0
+
+unit = 100
+k 10 s 10 k 10 s 10 k 10 s 10 ^
+h 10 h 10 h 10 h 10 h 10 h 10

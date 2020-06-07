@@ -1,0 +1,24 @@
+
+sure that is adequately viewable
+i remember a time some one said it right, great insight
+
+
+@a 9 out a @a in
+alphabetical a? out "it's alphabetical"
+alphanumerical a? out "it's alphanumerical"
+
+to re cu read-file "~/.vilde/extension/pixels"
+@buffer ppixels 640 480 32
+pdot p.x/2 p.y/2 prgba 128 128 128 0
+pline 0 0 p.x p.y prgba 128 128 128 0
+pcircle half p.x half p.y 32 prgba 128 128 128 0
+prect 0 0 p.x p.y prgba 128 128 128 0
+prefresh buffer
+wait seconds 3
+pnopixels
+
+regex "^[0-9]+" read-file "~/txt" .ret == 1? out "it matched"
+
+
+
+end 0

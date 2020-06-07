@@ -1,0 +1,7 @@
+[NO] rename unlink() conflict with stdio.h unlink to unlink_tok
+[NO] tox and toy reporting incorrect values
+[NO] list
+[NO] rename callable to runnable
+[NO] simplify TO and RE
+[NO] indentation
+[NO] non-inbuilt functions

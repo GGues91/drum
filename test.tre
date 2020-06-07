@@ -1,0 +1,13 @@
+#!/bin/tre
+
+printf"hello world\n"
+
+!foo a b c; printf"enter: " stdinput input
+       	    ?input regcmp"a-z+"
+	           printf"you entered %s\n",input
+	    |input regcmp"0-9+"
+	           printf"you entered number %d\n",input
+
+foo 1 2 3
+
+exit 0

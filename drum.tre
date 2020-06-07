@@ -1,0 +1,72 @@
+#!/bin/drum
+
+#DRUM
+#
+#
+
+#grid-mode...
+#play the columns overlapping
+#play the rows with 6ms spacing between
+#empty row is 6ms silence or 6ms of time forward before the next plays
+#column is y and row is x
+12x6 6ms @beat0
+#-----------
+k k k k k k
+ s s s s s s
+hhhhhhhhhhhh
+
+
+#-----------
+@DRUM_KIT_DIR ~/drumkits/
+@k $DRUM_KIT_DIR app '/kicks/kick*.wav
+@s $DRUM_KIT_DIR app '/snares/snare*.wav
+@h $DRUM_KIT_DIR app '/hats/hat*.wav
+#mode
+#k is k.0 by default
+#k.10 sets new default for k as k.10
+#so k10k10k10k.5k10k10k10 becomes k.0 10k.0 10k.0 10k.5 10k.5 10k.5 10k.5 10
+k10k10k
+10s10s
+h5h5h5h5
+
+k.10s.11s
+
+@n 9
+
+#buffer (for storing sounds)
+#point in buffer (for adding sounds)
+#spacing (spacing between one point and another; emptiness between sounds; sounds can overlap)
+
+@- 10ms
+@on-sample-spacing 10ms
+A:k-k-k-k-k-k-k-k-k-k-k-k-& #reset point in buffer to beginning of line
+B:-s-s-s-s-s-s-s-s-s-s-s-s&
+C:h-h-h-h-h-h-h-h-h-h-h-h-
+##0123456789ABCDEF01234567
+
+A:G
+#letter/label followed by : followed by line of samples and - (silence)
+#sounds can overlap silence
+#eg: k- #k plays through the silence if the sample is large enough
+
+
+A;0add-to-buffer wav "kick001.wav"
+
+#add smaller parts inside the 10ms at A2
+A;2 @-2.5ms
+    @on-sample-spacing 2.5ms
+    @can-fit 10/2.5 #=4 smaller sounds
+    A:-s-s
+
+A;3 @-1ms
+    @on-sample-spacing 1ms
+    @can-fit 10/1 #=10 smaller sounds
+    #loop variable amount of smaller sounds
+    A:
+    ()n++ < can-fit
+    n	k-
+    mute A;5 #mute the 5th sound in the smaller sounds
+    A;5 s #add snare on the 5th sound in the smaller sounds
+
+k-k-k-k-k-k-k-k-k-k-k-k-&
+	   \

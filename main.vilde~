@@ -1,0 +1,7 @@
+a = 2
+
+
+print a
+a = 99 print a
+print "hello\nworld"
+exit 1

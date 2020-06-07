@@ -1,0 +1,13 @@
+make -C extension/ -f makefile
+make[1]: Entering directory `/home/_PAL/project/vilde/extension'
+make[1]: Nothing to be done for `static'.
+make[1]: Leaving directory `/home/_PAL/project/vilde/extension'
+make vilde
+make[1]: Entering directory `/home/_PAL/project/vilde'
+gcc -c token.c
+In file included from token.c:1:0:
+c:\bin\mingw\include\stdio.h:291:41: error: expected identifier or '(' before 'const' _CRTIMP __cdecl __MINGW_NOTHROW  int    unlink (const char *);
+                                         ^
+make[1]: *** [token.o] Error 1
+make[1]: Leaving directory `/home/_PAL/project/vilde'
+make: *** [static] Error 2

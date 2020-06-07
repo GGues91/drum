@@ -1,0 +1,5 @@
+
+
+print "hello world\n"
+n = 9
+print n

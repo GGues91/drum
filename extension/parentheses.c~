@@ -1,0 +1,92 @@
+#include "parentheses.h"
+
+/*
+  use as template for anything depending on RandL
+*/
+RE(parenR)
+{
+  Stoken *R; int count;
+  R = token; count = -1;
+  do{ // find L
+    token = token -> prv;
+    ++count;
+  }while(!(tt.NUMBER & ttn_randl));
+  /* remove R and L 
+     and create list or 
+     remain the 1st
+     token between R and L */
+  if(count == 1) // not a list just one element... remain it as a list or undo the list? it's one element idk but,specified in parens
+    {
+      unlink(token); unlink(R);
+      free(token); free(R);
+    } // we've got a list
+  else
+    {
+      //errxit("count != 1 is unimplemented");
+      /* TODO...,,,
+	 
+	 x - a - b - c - y
+	 0 - a - b - c - 0
+
+	 create a list token to contain the list 
+	 we need three more tokens or just 1
+	 cuz we can reuse R and L as null pointers denoting ttn_eol
+	 so token is already L
+
+	 in memory; NULL <-> 1 <-> 2 <-> ... <-> NULL as X <-> list <-> Y
+
+	 L>NXT>PRV = NULL
+	 R>PRV>NXT = NULL #correction; i dont need to reuse them, just ensure that prv and nxt r null in the list of beg and end
+
+	 L->NXT must be converted to the list token cuz, afair L->NXT is what is "returned" and used further on (after the unlink)
+	 so L->NXT->NXT must point to R->NXT
+	 R->NXT->NXT must be null
+	 R->NXT->NXT->PRV must be 
+
+	 unlink r ; unlink l
+
+	 basically create a list token
+	 unlink r and l
+	 put everything inbetween into the list token
+	 and ensure that the first token between r and l is this list token and also nullify the list's 1st prv and last nxt
+      */
+      puts("count != 1; trying a list of > 1 elements...");
+      Stoken *list_token = malloc(sizeof(Stoken));
+      TT(list_token).NUMBER = ttn_list;
+      TT(list_token).list.length = count;
+
+      // null on ll
+      token->nxt->prv = NULL; // L's right side
+      R->prv->nxt = NULL;     // R's left side
+
+      // unlink ll (ttn_list) (must be subsituted by a single token of ttn_list)
+      //token->prv->nxt = R->nxt;
+      //R->nxt->prv = token->prv;
+      token->prv->nxt = list_token;
+      R->nxt->prv = list_token;
+      list_token->prv = token->prv;
+      list_token->nxt = R->nxt;
+
+      // save 1st item of ll to list
+      TT(list_token).list.token = token->nxt;
+      
+      // unlink r and l (not needed anymore)
+      unlink(token); unlink(R);
+      free(token); free(R);
+
+      // unlink 
+      //that's it? remember unlink R and L
+    }
+}
+TO(parenR)
+{
+  totoken(ttn_randl);
+  torandl(randl_parenthesisR,
+	  func_re_parenR);
+}
+TO(parenL)
+{
+  totoken(ttn_randl);
+  torandl(randl_parenthesisL,
+	  func_re_parenR);
+}
